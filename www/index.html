@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="color-scheme" content="light dark" />
     <link rel="icon" href="data:," />
-    <title>Kinh Koran: Nghe, Đọc &amp; Trắc nghiệm · Quran: Listen, Read &amp; Quiz</title>
+    <title>Kinh Koran: Nghe, Đọc &amp; Trắc nghiệm</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Noto+Nastaliq+Urdu:wght@400;600&family=Noto+Serif:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
@@ -26,7 +26,6 @@
         --red: #b3372c;
         --red-soft: #fbeae8;
         --shadow: 0 1px 3px rgba(10, 40, 30, .08);
-        --verse-scale: 1;
       }
       @media (prefers-color-scheme: dark) {
         :root {
@@ -185,8 +184,19 @@
       @media (prefers-color-scheme: dark) { .btn.primary { color: #08130d; } }
       .btn:disabled { opacity: .45; cursor: default; }
       .reader-bar .spacer { flex: 1; }
-      .font-btns { display: flex; gap: 5px; }
-      .font-btns .btn { padding: 5px 10px; }
+      .icon-btn {
+        width: 2.15rem; height: 2.15rem; min-height: 2.15rem; padding: 0; flex: none;
+        border: 1px solid var(--line); border-radius: 9px;
+        background: var(--surface); color: var(--ink); cursor: pointer;
+        display: grid; place-items: center;
+      }
+      .icon-btn:hover { border-color: var(--green); }
+      .reader-title {
+        flex: 1 1 auto; min-width: 0; margin: 0;
+        font-size: 1rem; font-weight: 700; line-height: 1.25;
+        overflow-wrap: anywhere;
+      }
+      .reader-title .ar-name { font-family: "Amiri", serif; font-size: 1.15rem; }
 
       #reader-content {
         flex: 1 1 auto; min-height: 0; overflow-y: auto; overflow-x: hidden;
@@ -195,19 +205,6 @@
         border-radius: 12px; box-shadow: var(--shadow);
         padding: 12px 14px;
       }
-      .surah-head { text-align: center; padding: 2px 0 10px; margin-bottom: 8px; border-bottom: 1px dashed var(--line); }
-      .surah-head .ar-title {
-        font-family: "Amiri", serif; font-size: 2rem; line-height: 1.35;
-        color: var(--green-deep); margin: 0;
-      }
-      .surah-head .en-title { font-size: 1.08rem; font-weight: 700; margin: 4px 0 2px; }
-      .surah-head .sub { color: var(--ink-soft); font-size: .85rem; }
-      .chips { display: flex; gap: 5px; justify-content: center; flex-wrap: wrap; margin-top: 7px; }
-      .chip {
-        font-size: .72rem; font-weight: 700; padding: 2px 8px; border-radius: 999px;
-        background: var(--green-soft); color: var(--green-deep);
-      }
-      .chip.gold { background: var(--gold-soft); color: var(--gold); }
       .heart-btn {
         border: 0; background: transparent; cursor: pointer;
         font-size: 1.25rem; line-height: 1; padding: 2px 6px; min-height: 2rem;
@@ -228,26 +225,19 @@
         font-size: .68rem; font-weight: 800; color: var(--gold);
         vertical-align: super; margin-right: 4px;
       }
-      .vtext { display: inline; font-family: "Noto Serif", Georgia, serif; font-size: calc(1.02rem * var(--verse-scale)); line-height: 1.6; margin: 0; overflow-wrap: break-word; }
-      .vtext + .vtext { display: block; margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--line); }
-      .vtext.secondary { font-size: calc(1rem * var(--verse-scale)); }
-      .vtext.lang-ar { font-family: "Amiri", serif; font-size: calc(1.55rem * var(--verse-scale)); line-height: 2.1; }
-      .vtext.lang-ur { font-family: "Noto Nastaliq Urdu", "Amiri", serif; font-size: calc(1.25rem * var(--verse-scale)); line-height: 2.5; }
-      .vtext.lang-fa { font-family: "Amiri", serif; font-size: calc(1.3rem * var(--verse-scale)); line-height: 2; }
-      .vtext .lang-tag {
-        font-family: "Be Vietnam Pro", sans-serif; font-size: .68rem; font-weight: 700;
-        letter-spacing: .04em; color: var(--gold); display: block; margin-bottom: 2px;
-      }
+      .vtext { display: inline; font-family: "Noto Serif", Georgia, serif; font-size: 1.02rem; line-height: 1.6; margin: 0; overflow-wrap: break-word; }
+      .vtext.lang-ar { font-family: "Amiri", serif; font-size: 1.55rem; line-height: 2.1; }
+      .vtext.lang-ur { font-family: "Noto Nastaliq Urdu", "Amiri", serif; font-size: 1.25rem; line-height: 2.5; }
+      .vtext.lang-fa { font-family: "Amiri", serif; font-size: 1.3rem; line-height: 2; }
       .vtext .w.kw { background: var(--gold-soft); border-radius: 4px; box-shadow: 0 0 0 2px var(--gold-soft); }
       .footnote {
-        margin-top: 8px; font-size: .84rem; color: var(--ink-soft);
-        background: var(--surface-2); border-radius: 8px; padding: 7px 11px; line-height: 1.55;
+        margin-top: 3px; font-size: .78rem; color: var(--ink-soft); line-height: 1.5;
       }
-      .footnote b { color: var(--gold); font-weight: 700; }
-      .verse:has(> .vtext[dir="rtl"]) { text-align: right; }
-      .verse:has(> .vtext[dir="rtl"]) .verse-num { margin-right: 0; margin-left: 4px; }
+      .footnote b { color: var(--ink-soft); font-weight: 700; }
       .reader-nav { display: flex; flex: none; gap: 6px; margin-top: 8px; }
       .reader-nav .btn { flex: 1; padding: 5px 12px; min-height: 2.4rem; }
+      .verse:has(> .vtext[dir="rtl"]) { text-align: right; }
+      .verse:has(> .vtext[dir="rtl"]) .verse-num { margin-right: 0; margin-left: 4px; }
 
       /* ---------- Listen (TTS): một hàng gọn Nghe · Tốc độ · Giờ tắt ---------- */
       .listen-bar {
@@ -263,26 +253,13 @@
         .listen-bar .btn { padding: 5px 9px; font-size: .84rem; }
         .listen-bar .lbl { font-size: .72rem; }
         .listen-bar select { font-size: .79rem; padding: 3px 2px; }
-        .cmp-row select { font-size: .79rem; }
       }
       .verse.speaking { background: var(--gold-soft); }
-      .verse-play {
-        float: right; border: 1px solid var(--line); background: var(--surface-2);
-        color: var(--green-deep); border-radius: 7px; min-width: 1.8rem; min-height: 1.8rem;
-        cursor: pointer; font-size: .72rem; line-height: 1; padding: 0; margin-left: 6px;
-      }
-      .verse-play:hover { border-color: var(--gold); }
       .listen-warn {
         flex: none; background: var(--red-soft); border-radius: 10px; padding: 9px 12px;
         font-size: .85rem; line-height: 1.55; margin-bottom: 8px;
       }
       .listen-warn b { color: var(--red); }
-      .cmp-row {
-        display: flex; flex: none; align-items: center; gap: 6px; flex-wrap: nowrap;
-        margin-bottom: 8px; min-width: 0;
-      }
-      .cmp-row .lbl { font-size: .78rem; font-weight: 700; color: var(--ink-soft); white-space: nowrap; }
-      .cmp-row select { width: auto; flex: 1 1 auto; min-width: 0; min-height: 1.9rem; padding: 3px 4px; font-size: .83rem; font-weight: 700; }
       .loading { text-align: center; color: var(--ink-soft); padding: 20px 10px; }
 
       /* ---------- Toast ---------- */
@@ -299,6 +276,8 @@
       .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
       /* ---------- Quiz ---------- */
+      .quiz-topbar { display: flex; flex: none; margin-bottom: 6px; }
+      .quiz-topbar .btn { padding: 5px 12px; }
       .quiz-card {
         background: var(--surface); border: 1px solid var(--line);
         border-radius: 12px; box-shadow: var(--shadow); padding: 12px 14px;
@@ -359,9 +338,9 @@
   <body>
     <div class="wrap">
       <!-- ============ TOPBAR ============ -->
-      <div class="topbar">
+      <div class="topbar" id="topbar">
         <div class="topbar-row">
-          <h1 class="app-title">Kinh Koran: Nghe, Đọc &amp; Trắc nghiệm · Quran: Listen, Read &amp; Quiz</h1>
+          <h1 class="app-title" id="app-title">Kinh Koran: Nghe, Đọc &amp; Trắc nghiệm</h1>
           <div class="lang-cluster">
             <span class="lang-name" id="lang-name-label">Tiếng Việt</span>
             <button class="globe-btn" id="btn-globe" aria-label="Chọn ngôn ngữ / Language">🌐</button>
@@ -391,12 +370,12 @@
 
         <div id="reader-box" class="hidden">
           <div class="reader-bar">
-            <button class="btn" id="btn-back"></button>
-            <div class="spacer"></div>
-            <div class="font-btns" aria-label="Cỡ chữ">
-              <button class="btn" id="font-down" aria-label="Giảm cỡ chữ">A−</button>
-              <button class="btn" id="font-up" aria-label="Tăng cỡ chữ">A+</button>
-            </div>
+            <button class="icon-btn" id="btn-back">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+            </button>
+            <h2 class="reader-title" id="reader-title"></h2>
+            <button class="heart-btn" id="btn-heart" aria-pressed="false">♡</button>
+            <button class="globe-btn" id="btn-globe-reader" aria-label="Chọn ngôn ngữ / Language">🌐</button>
           </div>
           <div class="listen-bar" id="listen-bar">
             <button class="btn primary" id="btn-listen">▶ Nghe</button>
@@ -421,24 +400,24 @@
             <span class="listen-status" id="listen-status"></span>
           </div>
           <div class="listen-warn hidden" id="listen-warn"></div>
-          <div class="cmp-row">
-            <label class="lbl" for="cmp-select" id="lbl-cmp">Ngôn ngữ đối chiếu</label>
-            <select id="cmp-select" aria-label="Ngôn ngữ đối chiếu / Comparison language"></select>
-          </div>
           <div id="reader-content"></div>
           <div class="reader-nav">
-            <button class="btn" id="btn-prev"></button>
-            <button class="btn" id="btn-next"></button>
+            <button class="btn" id="btn-prev-surah"></button>
+            <button class="btn" id="btn-next-surah"></button>
           </div>
         </div>
       </section>
 
       <!-- ============ TRẮC NGHIỆM ============ -->
       <section id="view-quiz" class="hidden">
+        <div class="quiz-topbar">
+          <button class="btn" id="btn-quiz-home-top"></button>
+        </div>
         <div class="quiz-card" id="quiz-start">
           <h2 id="quiz-title"></h2>
           <p id="quiz-desc"></p>
           <button class="btn primary big-start" id="btn-start-quiz"></button>
+          <button class="btn big-start" id="btn-quiz-home-1"></button>
         </div>
 
         <div class="quiz-card hidden" id="quiz-play">
@@ -449,6 +428,7 @@
           <div class="options" id="q-options"></div>
           <div class="explain hidden" id="q-explain"></div>
           <div class="quiz-actions">
+            <button class="btn" id="btn-quiz-home-2"></button>
             <button class="btn primary hidden" id="btn-next-q"></button>
           </div>
         </div>
@@ -458,6 +438,7 @@
           <div class="score-big" id="quiz-score">0/10</div>
           <p id="quiz-verdict"></p>
           <button class="btn primary big-start" id="btn-again"></button>
+          <button class="btn big-start" id="btn-quiz-home-3"></button>
         </div>
       </section>
 
@@ -533,6 +514,20 @@
         var langByCode = {};
         LANGS.forEach(function (l) { langByCode[l.code] = l; });
 
+        /* Tiêu đề chỉ hiện theo ngôn ngữ đang chọn — một ngôn ngữ duy nhất. */
+        var TITLES = {
+          ar: 'القرآن: استماع وقراءة واختبار',
+          en: 'Quran: Listen, Read & Quiz',
+          vi: 'Kinh Koran: Nghe, Đọc & Trắc nghiệm',
+          id: "Al-Qur'an: Dengarkan, Baca & Kuis",
+          ur: 'قرآن: سنیں، پڑھیں اور کوئز کریں',
+          bn: 'কুরআন: শুনুন, পড়ুন ও কুইজ',
+          tr: "Kur'an: Dinle, Oku ve Test Et",
+          fa: 'قرآن: گوش دهید، بخوانید و آزمون دهید',
+          ms: 'Al-Quran: Dengar, Baca & Kuiz',
+          fr: 'Coran : Écouter, Lire & Quiz'
+        };
+
         var STR = {
           vi: {
             tabRead: 'Tra cứu', tabQuiz: 'Trắc nghiệm', tabAbout: 'Giới thiệu',
@@ -540,9 +535,10 @@
             searchPh: 'Tìm surah…',
             searchLabel: 'Tìm surah',
             listEmpty: 'Không tìm thấy surah nào khớp.',
-            back: '← Danh sách surah', prev: '← Surah trước', next: 'Surah sau →',
+            back: '← Danh sách surah',
+            prevSurah: '← Surah trước', nextSurah: 'Surah sau →',
+            quizHome: '← Về danh sách surah',
             listen: '▶ Nghe', stop: '■ Dừng', speed: 'Tốc độ', time: 'Giờ tắt', timeOff: 'Tắt',
-            cmp: 'Ngôn ngữ đối chiếu', cmpOff: '— Tắt (chỉ 1 ngôn ngữ) —',
             verses: 'câu', surahWord: 'Surah',
             typeMeccan: 'Mặc khải ở Mecca', typeMedinan: 'Mặc khải ở Medina',
             favAdd: 'Thêm vào yêu thích', favRemove: 'Bỏ khỏi yêu thích',
@@ -574,9 +570,10 @@
             searchPh: 'Search surahs…',
             searchLabel: 'Search surahs',
             listEmpty: 'No matching surah found.',
-            back: '← Surah list', prev: '← Previous', next: 'Next →',
+            back: '← Surah list',
+            prevSurah: '← Previous surah', nextSurah: 'Next surah →',
+            quizHome: '← Back to surah list',
             listen: '▶ Listen', stop: '■ Stop', speed: 'Speed', time: 'Timer', timeOff: 'Off',
-            cmp: 'Comparison language', cmpOff: '— Off (single language) —',
             verses: 'verses', surahWord: 'Surah',
             typeMeccan: 'Revealed in Mecca', typeMedinan: 'Revealed in Medina',
             favAdd: 'Add to favourites', favRemove: 'Remove from favourites',
@@ -607,9 +604,7 @@
         var state = {
           view: 'read',
           primary: 'vi',
-          secondary: '',
           currentSurah: -1,
-          verseScale: 1,
           favorites: {} // số surah -> true (lưu bền bằng localStorage, xem restorePrefs bên dưới)
         };
 
@@ -689,10 +684,10 @@
             .catch(function () { footnotesLoading = null; return {}; });
           return footnotesLoading;
         }
-        /* Chỉ giữ trong RAM ngôn ngữ chính + đối chiếu; bỏ ngôn ngữ cũ. */
+        /* Chỉ giữ trong RAM ngôn ngữ đang chọn; bỏ ngôn ngữ cũ. */
         function pruneLangData() {
           Object.keys(langData).forEach(function (code) {
-            if (code !== state.primary && code !== state.secondary) delete langData[code];
+            if (code !== state.primary) delete langData[code];
           });
         }
 
@@ -731,7 +726,10 @@
         /* ---------- Giao diện theo ngôn ngữ ---------- */
         function applyI18n() {
           var t = ui();
-          document.documentElement.lang = state.primary === 'vi' ? 'vi' : 'en';
+          document.documentElement.lang = state.primary;
+          var appTitle = TITLES[state.primary] || TITLES.en;
+          $('app-title').textContent = appTitle;
+          document.title = appTitle;
           $('tab-read').textContent = t.tabRead;
           $('tab-quiz').textContent = t.tabQuiz;
           $('tab-about').textContent = t.tabAbout;
@@ -743,12 +741,11 @@
           search.placeholder = t.searchPh;
           search.setAttribute('aria-label', t.searchLabel);
           $('list-empty').textContent = t.listEmpty;
-          $('btn-back').textContent = t.back;
-          $('btn-prev').textContent = t.prev;
-          $('btn-next').textContent = t.next;
+          $('btn-back').setAttribute('aria-label', t.back);
+          $('btn-back').title = t.back;
+          $('btn-globe-reader').setAttribute('aria-label', t.pickerTitle);
           $('lbl-speed').textContent = t.speed;
           $('lbl-time').textContent = t.time;
-          $('lbl-cmp').textContent = t.cmp;
           var offOpt = $('listen-time').querySelector('option[value="0"]');
           if (offOpt) { offOpt.setAttribute('data-base', t.timeOff); if (!sleepT) offOpt.textContent = t.timeOff; }
           $('quiz-title').textContent = t.quizTitle;
@@ -756,7 +753,10 @@
           $('btn-start-quiz').textContent = t.quizStart;
           $('btn-again').textContent = t.quizAgain;
           $('quiz-result-title').textContent = t.quizResult;
-          fillCmpSelect();
+          $('btn-quiz-home-top').textContent = t.quizHome;
+          $('btn-quiz-home-1').textContent = t.quizHome;
+          $('btn-quiz-home-2').textContent = t.quizHome;
+          $('btn-quiz-home-3').textContent = t.quizHome;
           fillAbout();
           updateListenUI();
           refreshVoiceWarn();
@@ -818,7 +818,6 @@
           if (code === state.primary) return;
           stopListen();
           state.primary = code;
-          state.secondary = '';
           savePrefs();
           tts.lang = code;
           pruneLangData();
@@ -831,31 +830,6 @@
             if (state.currentSurah >= 0) renderReader();
           }).catch(function () {});
         }
-
-        /* ---------- Ngôn ngữ đối chiếu ---------- */
-        function fillCmpSelect() {
-          var sel = $('cmp-select');
-          sel.innerHTML = '';
-          var none = document.createElement('option');
-          none.value = ''; none.textContent = ui().cmpOff;
-          sel.appendChild(none);
-          LANGS.forEach(function (l) {
-            if (l.code === state.primary) return;
-            var o = document.createElement('option');
-            o.value = l.code;
-            o.textContent = l.name;
-            sel.appendChild(o);
-          });
-          sel.value = state.secondary;
-        }
-        $('cmp-select').addEventListener('change', function () {
-          state.secondary = this.value;
-          pruneLangData();
-          if (state.secondary) {
-            loadLang(state.secondary).then(function () { renderReader(); }).catch(function () { renderReader(); });
-          }
-          renderReader();
-        });
 
         /* ---------- Danh sách surah + yêu thích ----------
            Nút surah đúng như nút sách của Kinh Thánh: một dòng tên duy nhất,
@@ -919,8 +893,11 @@
         });
 
         /* ---------- Trang đọc ---------- */
+        /* Trang đọc là trang riêng như Kinh Thánh: mở surah thì ẩn hẳn
+           thanh tiêu đề app + 3 tab, chỉ còn thanh đọc riêng. */
         function openSurah(idx) {
           state.currentSurah = idx;
+          $('topbar').classList.add('hidden');
           $('browser-box').classList.add('hidden');
           $('reader-box').classList.remove('hidden');
           renderReader();
@@ -932,8 +909,16 @@
           state.currentSurah = -1;
           $('reader-box').classList.add('hidden');
           $('browser-box').classList.remove('hidden');
+          $('topbar').classList.remove('hidden');
         }
         $('btn-back').addEventListener('click', closeSurah);
+        $('btn-globe-reader').addEventListener('click', openPicker);
+        $('btn-prev-surah').addEventListener('click', function () {
+          if (state.currentSurah > 0) openSurah(state.currentSurah - 1);
+        });
+        $('btn-next-surah').addEventListener('click', function () {
+          if (state.currentSurah >= 0 && state.currentSurah < SURAHS_META.length - 1) openSurah(state.currentSurah + 1);
+        });
 
         function verseText(code, sIdx, aIdx) {
           var d = langData[code];
@@ -942,19 +927,16 @@
         }
         function verseBlock(sIdx, ayahIdx) {
           var m = meta(sIdx);
-          var langs = [state.primary];
-          if (state.secondary && state.secondary !== state.primary) langs.push(state.secondary);
-          var html = '<div class="verse" id="verse-' + ayahIdx + '"><button class="verse-play" data-verse="' + ayahIdx + '" aria-label="Nghe từ câu ' + (ayahIdx + 1) + ' / Listen from verse ' + (ayahIdx + 1) + '" title="▶">▶</button><span class="verse-num">' + (ayahIdx + 1) + '</span>';
-          langs.forEach(function (code, li) {
-            var L = langByCode[code];
-            var txt = verseText(code, sIdx, ayahIdx);
-            if (txt == null) return;
-            var tag = langs.length > 1 ? '<span class="lang-tag">' + esc(L.name) + '</span>' : '';
-            html += '<p class="vtext lang-' + code + (li > 0 ? ' secondary' : '') + '" data-lang="' + code + '" dir="' + L.dir + '" lang="' + code + '">'
-              + tag + esc(txt) + '</p>';
-          });
+          var code = state.primary;
+          var L = langByCode[code];
+          var txt = verseText(code, sIdx, ayahIdx);
+          var html = '<div class="verse" id="verse-' + ayahIdx + '"><span class="verse-num">' + (ayahIdx + 1) + '</span>';
+          if (txt != null) {
+            html += '<p class="vtext lang-' + code + '" data-lang="' + code + '" dir="' + L.dir + '" lang="' + code + '">'
+              + esc(txt) + '</p>';
+          }
           var key = m.n + ':' + (ayahIdx + 1);
-          if (langs.indexOf('vi') !== -1 && FOOTNOTES && FOOTNOTES[key]) {
+          if (code === 'vi' && FOOTNOTES && FOOTNOTES[key]) {
             html += '<div class="footnote"><b>' + esc(ui().footnoteLabel) + '</b> ' + esc(FOOTNOTES[key]) + '</div>';
           }
           html += '</div>';
@@ -967,62 +949,56 @@
           if (state.currentSurah < 0) return;
           var sIdx = state.currentSurah;
           var m = meta(sIdx);
-          var needFootnotes = state.primary === 'vi' || state.secondary === 'vi';
+          var needFootnotes = state.primary === 'vi';
           if (needFootnotes && !FOOTNOTES) {
             loadFootnotes().then(function () { if (state.currentSurah === sIdx) renderReader(); });
           }
-          var ready = langData[state.primary] && (!state.secondary || langData[state.secondary]);
-          var fav = !!state.favorites[m.n];
-          var html = '<div class="surah-head">'
-            + '<p class="ar-title" dir="rtl" lang="ar">' + esc(m.ar) + '</p>'
-            + '<p class="en-title">' + ui().surahWord + ' ' + m.n + ' · ' + esc(m.en)
-            + ' <button class="heart-btn" id="btn-heart" aria-pressed="' + fav + '" aria-label="' + esc(fav ? ui().favRemove : ui().favAdd) + '" title="' + esc(fav ? ui().favRemove : ui().favAdd) + '">' + (fav ? '♥' : '♡') + '</button></p>'
-            + '<div class="chips"><span class="chip">' + typeLabel(m) + '</span>'
-            + '<span class="chip gold">' + m.count + ' ' + ui().verses + '</span></div>'
-            + '</div>';
+          var ready = !!langData[state.primary];
+          paintReaderBar();
+          var html = '';
           if (!ready) {
             html += '<p class="loading">' + esc(ui().loading) + '</p>';
             $('reader-content').innerHTML = html;
-            bindHeart(m.n);
-            var jobs = [loadLang(state.primary)];
-            if (state.secondary) jobs.push(loadLang(state.secondary));
-            Promise.all(jobs).then(function () {
+            loadLang(state.primary).then(function () {
               if (state.currentSurah === sIdx) renderReader();
             }).catch(function () {
               if (state.currentSurah === sIdx) {
                 $('reader-content').innerHTML = html + '<div class="listen-warn"><b>' + esc(ui().loadError) + '</b></div>';
-                bindHeart(m.n);
               }
             });
-            $('btn-prev').disabled = sIdx <= 0;
-            $('btn-next').disabled = sIdx >= SURAHS_META.length - 1;
             return;
           }
           if (m.n === 9) {
             html += '<div class="note-box">' + ui().basmalahNote + '</div>';
-          } else if (m.n !== 1 && (state.primary === 'ar' || state.secondary === 'ar')) {
+          } else if (m.n !== 1 && state.primary === 'ar') {
             html += '<p class="basmalah" dir="rtl" lang="ar">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>';
           }
           for (var i = 0; i < m.count; i++) html += verseBlock(sIdx, i);
           $('reader-content').innerHTML = html;
-          bindHeart(m.n);
-          $('btn-prev').disabled = sIdx <= 0;
-          $('btn-next').disabled = sIdx >= SURAHS_META.length - 1;
           refreshVoiceWarn();
         }
-        function bindHeart(surahN) {
-          var h = $('btn-heart');
-          if (!h) return;
-          h.addEventListener('click', function () {
-            if (state.favorites[surahN]) delete state.favorites[surahN];
-            else state.favorites[surahN] = true;
-            savePrefs();
-            renderFavorites();
-            renderReaderHeadOnly();
-          });
+        /* Thanh đọc kiểu Kinh Thánh: một tiêu đề duy nhất theo ngôn ngữ đang
+           chọn (Ả Rập thì tên Ả Rập, còn lại tên Latin như trên nút danh sách)
+           + tim yêu thích ngay trên thanh, không dựng đầu trang riêng. */
+        function paintReaderBar() {
+          if (state.currentSurah < 0) return;
+          var m = meta(state.currentSurah);
+          var titleEl = $('reader-title');
+          if (state.primary === 'ar') {
+            titleEl.innerHTML = '<span class="ar-name" dir="rtl" lang="ar">' + m.n + '. ' + esc(m.ar) + '</span>';
+          } else {
+            titleEl.textContent = m.n + '. ' + m.en;
+          }
+          var t = ui();
+          var prev = $('btn-prev-surah'), next = $('btn-next-surah');
+          prev.textContent = t.prevSurah;
+          next.textContent = t.nextSurah;
+          prev.disabled = state.currentSurah <= 0;
+          next.disabled = state.currentSurah >= SURAHS_META.length - 1;
+          paintHeart();
         }
-        /* Bấm tim chỉ đổi trạng thái tim, không dựng lại cả trang đọc (tránh mất vị trí cuộn). */
-        function renderReaderHeadOnly() {
+        /* Bấm tim chỉ đổi trạng thái tim, không dựng lại trang đọc (tránh mất vị trí cuộn). */
+        function paintHeart() {
           var h = $('btn-heart');
           if (!h || state.currentSurah < 0) return;
           var m = meta(state.currentSurah);
@@ -1032,21 +1008,15 @@
           h.setAttribute('aria-label', fav ? ui().favRemove : ui().favAdd);
           h.title = fav ? ui().favRemove : ui().favAdd;
         }
-        $('btn-prev').addEventListener('click', function () {
-          if (state.currentSurah > 0) { state.currentSurah--; renderReader(); $('reader-content').scrollTop = 0; }
+        $('btn-heart').addEventListener('click', function () {
+          if (state.currentSurah < 0) return;
+          var n = meta(state.currentSurah).n;
+          if (state.favorites[n]) delete state.favorites[n];
+          else state.favorites[n] = true;
+          savePrefs();
+          renderFavorites();
+          paintHeart();
         });
-        $('btn-next').addEventListener('click', function () {
-          if (state.currentSurah < SURAHS_META.length - 1) { state.currentSurah++; renderReader(); $('reader-content').scrollTop = 0; }
-        });
-        $('font-up').addEventListener('click', function () {
-          state.verseScale = Math.min(1.5, +(state.verseScale + 0.1).toFixed(2));
-          document.documentElement.style.setProperty('--verse-scale', state.verseScale);
-        });
-        $('font-down').addEventListener('click', function () {
-          state.verseScale = Math.max(0.8, +(state.verseScale - 0.1).toFixed(2));
-          document.documentElement.style.setProperty('--verse-scale', state.verseScale);
-        });
-
         /* ================= TRẮC NGHIỆM ================= */
         var FIXED = {
           vi: [
@@ -1352,6 +1322,20 @@
         $('btn-start-quiz').addEventListener('click', startQuiz);
         $('btn-again').addEventListener('click', startQuiz);
 
+        /* Từ trắc nghiệm quay thẳng về danh sách surah chính ban đầu. */
+        function goHomeFromQuiz() {
+          stopListen();
+          quiz = { list: [], idx: 0, score: 0, answered: false };
+          $('quiz-play').classList.add('hidden');
+          $('quiz-done').classList.add('hidden');
+          $('quiz-start').classList.remove('hidden');
+          closeSurah();
+          setView('read');
+        }
+        ['btn-quiz-home-top', 'btn-quiz-home-1', 'btn-quiz-home-2', 'btn-quiz-home-3'].forEach(function (id) {
+          $(id).addEventListener('click', goHomeFromQuiz);
+        });
+
         /* ================= NGHE (đọc thành tiếng) =================
            Engine theo thứ tự ưu tiên: plugin Capacitor TextToSpeech
            (window.Capacitor.Plugins.TextToSpeech) → window.NativeTTS →
@@ -1488,10 +1472,7 @@
             }
             offset += part.length;
           });
-          /* Giữ nguyên thẻ tên ngôn ngữ (nếu có) ở đầu đoạn. */
-          var tag = p.querySelector('.lang-tag');
           p.innerHTML = '';
-          if (tag) p.appendChild(tag);
           p.appendChild(frag);
           karaoke = { verse: verseIdx, words: words, origText: String(text), p: p };
         }
@@ -1509,9 +1490,7 @@
         function clearKaraoke() {
           if (!karaoke) return;
           var p = karaoke.p, orig = karaoke.origText;
-          var tag = p.querySelector('.lang-tag');
           p.innerHTML = '';
-          if (tag) p.appendChild(tag);
           p.appendChild(document.createTextNode(orig));
           karaoke = null;
         }
@@ -1659,11 +1638,6 @@
             speakVerse(v);
           }
         });
-        $('reader-content').addEventListener('click', function (e) {
-          var b = e.target && e.target.closest ? e.target.closest('.verse-play') : null;
-          if (b) startListen(parseInt(b.getAttribute('data-verse'), 10));
-        });
-
         /* ================= HẸN GIỜ TẮT =================
            Dropdown Giờ tắt cạnh nút Nghe: chọn số phút xong, mặt dropdown
            biến thành đếm ngược ⏱ m:ss; bấm vào mở ra chọn tiếp. Hết giờ tự
