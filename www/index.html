@@ -47,59 +47,63 @@
         }
       }
       * { box-sizing: border-box; }
-      html { -webkit-text-size-adjust: 100%; }
+      html { -webkit-text-size-adjust: 100%; height: 100%; overflow: hidden; }
       body {
-        margin: 0;
+        margin: 0; width: 100%;
         background: var(--bg);
         color: var(--ink);
         font-family: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", sans-serif;
-        font-size: 16px;
-        line-height: 1.55;
+        font-size: 15px;
+        line-height: 1.45;
+        height: 100dvh; overflow: hidden;
+        overscroll-behavior: none;
+        touch-action: pan-y;
       }
       button, select, input { font: inherit; }
-      button, select, input[type="search"], input[type="text"] { min-height: 44px; }
+      button, select, input[type="search"], input[type="text"] { min-height: 2rem; }
       .wrap {
-        max-width: 880px; margin: 0 auto;
-        padding: 0 16px calc(48px + env(safe-area-inset-bottom, 0px));
+        max-width: 880px; width: 100%; margin: 0 auto; height: 100%;
+        display: flex; flex-direction: column; overflow-x: hidden;
+        padding: 0 12px calc(10px + env(safe-area-inset-bottom, 0px));
+        padding-top: env(safe-area-inset-top, 0px);
       }
+      #view-read, #view-quiz, #view-about { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+      #view-quiz, #view-about { overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; scrollbar-width: thin; }
 
       /* ---------- Topbar ---------- */
-      .topbar {
-        position: sticky; top: 0; z-index: 30;
-        background: var(--bg);
-        padding: calc(10px + env(safe-area-inset-top, 0px)) 0 8px;
-      }
-      .topbar-row { display: flex; align-items: flex-start; gap: 12px; }
+      .topbar { flex: none; padding: 6px 0 5px; }
+      .topbar-row { display: flex; align-items: center; gap: 8px; }
       .app-title {
         flex: 1 1 auto; min-width: 0;
-        font-size: 1.02rem; font-weight: 800; line-height: 1.35;
-        margin: 6px 0 0; overflow-wrap: anywhere;
+        font-size: 1.02rem; font-weight: 800; line-height: 1.25;
+        margin: 0; overflow-wrap: anywhere;
       }
       .lang-cluster {
         flex: 0 0 auto; white-space: nowrap;
-        display: flex; align-items: center; gap: 8px;
+        display: flex; align-items: center; gap: 6px;
       }
-      .lang-cluster .lang-name { font-weight: 700; font-size: .92rem; color: var(--green-deep); }
+      .lang-cluster .lang-name { font-weight: 700; font-size: .8rem; color: var(--green-deep); white-space: nowrap; }
       .globe-btn {
-        width: 44px; height: 44px; min-height: 44px; padding: 0;
+        width: 2.15rem; height: 2.15rem; min-height: 2.15rem; padding: 0;
         border: 1px solid var(--line); border-radius: 50%;
         background: var(--surface); box-shadow: var(--shadow);
-        font-size: 1.25rem; line-height: 1; cursor: pointer;
+        font-size: 1.1rem; line-height: 1; cursor: pointer;
+        display: grid; place-items: center;
       }
       .globe-btn:hover { border-color: var(--green); }
 
       /* ---------- Tab bar ---------- */
       .tabs {
-        display: flex; gap: 4px; margin-top: 10px;
+        display: flex; gap: 4px; margin-top: 8px;
         background: var(--surface-2);
         border: 1px solid var(--line);
-        border-radius: 12px;
-        padding: 4px;
+        border-radius: 10px;
+        padding: 3px;
       }
       .tab {
-        flex: 1; border: 0; border-radius: 9px; cursor: pointer;
+        flex: 1; border: 0; border-radius: 8px; cursor: pointer;
         background: transparent; color: var(--ink-soft);
-        font-weight: 600; font-size: .95rem; padding: 8px 4px;
+        font-weight: 700; font-size: .93rem; padding: 5px 4px; min-height: 2.15rem;
       }
       .tab[aria-selected="true"] { background: var(--green); color: #fff; }
       @media (prefers-color-scheme: dark) {
@@ -125,13 +129,13 @@
         .picker { align-items: center; }
         .picker-panel { border-radius: 18px; }
       }
-      .picker-panel h2 { margin: 0 0 12px; font-size: 1.05rem; }
-      .picker-list { display: flex; flex-direction: column; gap: 8px; }
+      .picker-panel h2 { margin: 0 0 10px; font-size: 1rem; }
+      .picker-list { display: flex; flex-direction: column; gap: 6px; }
       .picker-item {
-        display: flex; align-items: center; gap: 12px; width: 100%;
+        display: flex; align-items: center; gap: 10px; width: 100%;
         text-align: left; cursor: pointer;
         background: var(--surface); border: 1px solid var(--line);
-        border-radius: 12px; padding: 10px 14px; color: var(--ink);
+        border-radius: 10px; padding: 7px 12px; color: var(--ink);
       }
       .picker-item:hover { border-color: var(--green); }
       .picker-item[aria-checked="true"] { border-color: var(--green); background: var(--green-soft); }
@@ -140,109 +144,92 @@
       .picker-item .check { margin-left: auto; color: var(--green); font-weight: 800; }
 
       /* ---------- Controls ---------- */
-      .controls {
-        background: var(--surface); border: 1px solid var(--line);
-        border-radius: 14px; box-shadow: var(--shadow);
-        padding: 14px; margin-bottom: 14px;
-      }
+      #browser-box, #reader-box { flex: 1 1 auto; min-height: 0; min-width: 0; width: 100%; display: flex; flex-direction: column; }
+      .controls { flex: none; margin-bottom: 6px; }
       select, input[type="search"] {
-        width: 100%; border: 1px solid var(--line); border-radius: 10px;
-        background: var(--surface); color: var(--ink); padding: 8px 10px;
+        width: 100%; border: 1px solid var(--line); border-radius: 9px;
+        background: var(--surface); color: var(--ink); padding: 6px 11px;
+        font-size: .92rem; min-height: 2.15rem;
       }
-      .hint { font-size: .82rem; color: var(--ink-soft); margin: 8px 2px 0; }
+      .list-scroll { flex: 1 1 auto; min-height: 0; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; scrollbar-width: thin; padding-bottom: 2px; }
 
-      /* ---------- Surah grid ---------- */
-      .surah-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 255px), 1fr)); gap: 8px; }
+      /* ---------- Surah grid: lưới nút gọn như danh sách sách của Kinh Thánh ---------- */
+      .surah-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 5px; }
+      @media (max-width: 560px) { .surah-grid { grid-template-columns: repeat(3, 1fr); } }
       .surah-item {
-        display: flex; align-items: center; gap: 12px; width: 100%;
-        text-align: left; cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        width: 100%; min-width: 0;
+        text-align: center; cursor: pointer;
         background: var(--surface); border: 1px solid var(--line);
-        border-radius: 12px; padding: 11px 13px; box-shadow: var(--shadow);
-        color: var(--ink);
+        border-radius: 8px; padding: 5px 4px;
+        color: var(--ink); min-height: 1.95rem;
       }
       .surah-item:hover { border-color: var(--green); }
-      .num-badge {
-        flex: 0 0 auto; width: 40px; height: 40px; position: relative;
-        display: grid; place-items: center;
-      }
-      .num-badge::before {
-        content: ""; position: absolute; inset: 4px;
-        border: 1.5px solid var(--gold); border-radius: 7px;
-        transform: rotate(45deg);
-      }
-      .num-badge span { font-weight: 700; font-size: .88rem; color: var(--green-deep); position: relative; }
-      .surah-item .names { flex: 1 1 auto; min-width: 0; }
-      .surah-item .en { font-weight: 600; font-size: .98rem; overflow-wrap: anywhere; }
-      .surah-item .meta { font-size: .78rem; color: var(--ink-soft); }
+      .surah-item .en { font-family: "Noto Serif", Georgia, serif; font-weight: 700; font-size: .82rem; line-height: 1.2; overflow-wrap: anywhere; }
       .surah-item .ar-name {
-        font-family: "Amiri", serif; font-size: 1.35rem; line-height: 1.2;
-        color: var(--green-deep); flex: 0 0 auto;
+        font-family: "Amiri", serif; font-weight: 700; font-size: 1.02rem; line-height: 1.3;
+        overflow-wrap: anywhere;
       }
-      .fav-box { margin-bottom: 14px; }
-      .fav-empty { font-size: .9rem; color: var(--ink-soft); margin: 0 2px; }
-      .empty { text-align: center; color: var(--ink-soft); padding: 28px 10px; }
+      .fav-box { margin-bottom: 8px; }
+      .empty { text-align: center; color: var(--ink-soft); padding: 16px 10px; font-size: .9rem; }
 
       /* ---------- Reader ---------- */
-      .reader-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+      .reader-bar { display: flex; flex: none; align-items: center; gap: 6px; margin-bottom: 6px; }
       .btn {
         border: 1px solid var(--line); background: var(--surface); color: var(--ink);
-        border-radius: 10px; padding: 8px 14px; cursor: pointer; font-weight: 600;
-        box-shadow: var(--shadow);
+        border-radius: 9px; padding: 5px 12px; cursor: pointer; font-weight: 700;
+        font-size: .9rem; min-height: 2rem;
       }
       .btn:hover { border-color: var(--green); }
       .btn.primary { background: var(--green); border-color: var(--green); color: #fff; }
       @media (prefers-color-scheme: dark) { .btn.primary { color: #08130d; } }
       .btn:disabled { opacity: .45; cursor: default; }
       .reader-bar .spacer { flex: 1; }
-      .font-btns { display: flex; gap: 6px; }
-      .font-btns .btn { padding: 8px 12px; }
+      .font-btns { display: flex; gap: 5px; }
+      .font-btns .btn { padding: 5px 10px; }
 
-      .surah-head {
+      #reader-content {
+        flex: 1 1 auto; min-height: 0; overflow-y: auto; overflow-x: hidden;
+        overscroll-behavior: contain; scrollbar-width: thin;
         background: var(--surface); border: 1px solid var(--line);
-        border-top: 3px solid var(--gold);
-        border-radius: 14px; box-shadow: var(--shadow);
-        padding: 22px 18px 18px; text-align: center; margin-bottom: 14px;
+        border-radius: 12px; box-shadow: var(--shadow);
+        padding: 12px 14px;
       }
+      .surah-head { text-align: center; padding: 2px 0 10px; margin-bottom: 8px; border-bottom: 1px dashed var(--line); }
       .surah-head .ar-title {
-        font-family: "Amiri", serif; font-size: 2.4rem; line-height: 1.35;
+        font-family: "Amiri", serif; font-size: 2rem; line-height: 1.35;
         color: var(--green-deep); margin: 0;
       }
-      .surah-head .en-title { font-size: 1.15rem; font-weight: 700; margin: 6px 0 2px; }
-      .surah-head .sub { color: var(--ink-soft); font-size: .9rem; }
-      .chips { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 12px; }
+      .surah-head .en-title { font-size: 1.08rem; font-weight: 700; margin: 4px 0 2px; }
+      .surah-head .sub { color: var(--ink-soft); font-size: .85rem; }
+      .chips { display: flex; gap: 5px; justify-content: center; flex-wrap: wrap; margin-top: 7px; }
       .chip {
-        font-size: .8rem; font-weight: 600; padding: 4px 12px; border-radius: 999px;
+        font-size: .72rem; font-weight: 700; padding: 2px 8px; border-radius: 999px;
         background: var(--green-soft); color: var(--green-deep);
       }
       .chip.gold { background: var(--gold-soft); color: var(--gold); }
       .heart-btn {
         border: 0; background: transparent; cursor: pointer;
-        font-size: 1.7rem; line-height: 1; padding: 4px 8px; min-height: 44px;
-        color: var(--ink-soft);
+        font-size: 1.25rem; line-height: 1; padding: 2px 6px; min-height: 2rem;
+        color: var(--ink-soft); vertical-align: middle;
       }
       .heart-btn[aria-pressed="true"] { color: var(--red); }
       .basmalah {
-        font-family: "Amiri", serif; font-size: 1.7rem; text-align: center;
-        color: var(--green-deep); margin: 4px 0 14px; line-height: 1.8;
+        font-family: "Amiri", serif; font-size: 1.5rem; text-align: center;
+        color: var(--green-deep); margin: 2px 0 10px; line-height: 1.8;
       }
       .note-box {
-        background: var(--gold-soft); border-radius: 10px; padding: 10px 14px;
-        font-size: .88rem; margin-bottom: 14px;
+        background: var(--gold-soft); border-radius: 8px; padding: 8px 12px;
+        font-size: .85rem; margin-bottom: 10px;
       }
 
-      .verse {
-        background: var(--surface); border: 1px solid var(--line);
-        border-radius: 12px; box-shadow: var(--shadow);
-        padding: 14px 16px; margin-bottom: 10px;
-      }
+      .verse { padding: 4px 8px; border-radius: 7px; margin: 0 -8px; }
       .verse-num {
-        display: inline-grid; place-items: center;
-        min-width: 30px; height: 30px; padding: 0 6px; margin-bottom: 8px;
-        border-radius: 8px; background: var(--green-soft); color: var(--green-deep);
-        font-size: .82rem; font-weight: 700;
+        font-size: .68rem; font-weight: 800; color: var(--gold);
+        vertical-align: super; margin-right: 4px;
       }
-      .vtext { font-family: "Noto Serif", Georgia, serif; font-size: calc(1.06rem * var(--verse-scale)); line-height: 1.75; margin: 0; overflow-wrap: break-word; }
-      .vtext + .vtext { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line); }
+      .vtext { display: inline; font-family: "Noto Serif", Georgia, serif; font-size: calc(1.02rem * var(--verse-scale)); line-height: 1.6; margin: 0; overflow-wrap: break-word; }
+      .vtext + .vtext { display: block; margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--line); }
       .vtext.secondary { font-size: calc(1rem * var(--verse-scale)); }
       .vtext.lang-ar { font-family: "Amiri", serif; font-size: calc(1.55rem * var(--verse-scale)); line-height: 2.1; }
       .vtext.lang-ur { font-family: "Noto Nastaliq Urdu", "Amiri", serif; font-size: calc(1.25rem * var(--verse-scale)); line-height: 2.5; }
@@ -253,44 +240,50 @@
       }
       .vtext .w.kw { background: var(--gold-soft); border-radius: 4px; box-shadow: 0 0 0 2px var(--gold-soft); }
       .footnote {
-        margin-top: 10px; font-size: .86rem; color: var(--ink-soft);
-        background: var(--surface-2); border-radius: 8px; padding: 8px 12px; line-height: 1.6;
+        margin-top: 8px; font-size: .84rem; color: var(--ink-soft);
+        background: var(--surface-2); border-radius: 8px; padding: 7px 11px; line-height: 1.55;
       }
       .footnote b { color: var(--gold); font-weight: 700; }
-      .reader-nav { display: flex; gap: 10px; margin-top: 16px; }
-      .reader-nav .btn { flex: 1; padding: 12px; }
+      .verse:has(> .vtext[dir="rtl"]) { text-align: right; }
+      .verse:has(> .vtext[dir="rtl"]) .verse-num { margin-right: 0; margin-left: 4px; }
+      .reader-nav { display: flex; flex: none; gap: 6px; margin-top: 8px; }
+      .reader-nav .btn { flex: 1; padding: 5px 12px; min-height: 2.4rem; }
 
-      /* ---------- Listen (TTS) ---------- */
+      /* ---------- Listen (TTS): một hàng gọn Nghe · Tốc độ · Giờ tắt ---------- */
       .listen-bar {
-        display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-        background: var(--surface); border: 1px solid var(--line);
-        border-radius: 12px; box-shadow: var(--shadow);
-        padding: 10px 12px; margin-bottom: 12px;
+        display: flex; flex: none; align-items: center; gap: 5px; flex-wrap: nowrap;
+        margin-bottom: 6px; min-width: 0;
       }
-      .listen-bar .lbl { font-size: .82rem; font-weight: 600; color: var(--ink-soft); }
-      .listen-bar select { width: auto; min-height: 40px; padding: 6px 8px; }
-      .listen-status { font-size: .85rem; color: var(--ink-soft); flex: 1 1 130px; }
-      .verse.speaking { border-color: var(--gold); background: var(--gold-soft); }
+      .listen-bar .lbl { font-size: .78rem; font-weight: 700; color: var(--ink-soft); white-space: nowrap; }
+      .listen-bar select { width: auto; min-height: 1.9rem; padding: 3px 4px; font-size: .83rem; font-weight: 700; flex: none; }
+      .listen-bar .btn { white-space: nowrap; flex: none; }
+      .listen-status { font-size: .78rem; color: var(--ink-soft); flex: 1 1 auto; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      @media (max-width: 400px) {
+        .listen-bar { gap: 4px; }
+        .listen-bar .btn { padding: 5px 9px; font-size: .84rem; }
+        .listen-bar .lbl { font-size: .72rem; }
+        .listen-bar select { font-size: .79rem; padding: 3px 2px; }
+        .cmp-row select { font-size: .79rem; }
+      }
+      .verse.speaking { background: var(--gold-soft); }
       .verse-play {
         float: right; border: 1px solid var(--line); background: var(--surface-2);
-        color: var(--green-deep); border-radius: 8px; min-width: 34px; min-height: 34px;
-        cursor: pointer; font-size: .78rem; line-height: 1; padding: 0;
+        color: var(--green-deep); border-radius: 7px; min-width: 1.8rem; min-height: 1.8rem;
+        cursor: pointer; font-size: .72rem; line-height: 1; padding: 0; margin-left: 6px;
       }
       .verse-play:hover { border-color: var(--gold); }
       .listen-warn {
-        background: var(--red-soft); border-radius: 10px; padding: 10px 14px;
-        font-size: .88rem; line-height: 1.6; margin-bottom: 14px;
+        flex: none; background: var(--red-soft); border-radius: 10px; padding: 9px 12px;
+        font-size: .85rem; line-height: 1.55; margin-bottom: 8px;
       }
       .listen-warn b { color: var(--red); }
       .cmp-row {
-        display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-        background: var(--surface); border: 1px solid var(--line);
-        border-radius: 12px; box-shadow: var(--shadow);
-        padding: 8px 12px; margin-bottom: 14px;
+        display: flex; flex: none; align-items: center; gap: 6px; flex-wrap: nowrap;
+        margin-bottom: 8px; min-width: 0;
       }
-      .cmp-row .lbl { font-size: .82rem; font-weight: 600; color: var(--ink-soft); }
-      .cmp-row select { width: auto; flex: 1 1 170px; min-height: 40px; padding: 6px 8px; }
-      .loading { text-align: center; color: var(--ink-soft); padding: 30px 10px; }
+      .cmp-row .lbl { font-size: .78rem; font-weight: 700; color: var(--ink-soft); white-space: nowrap; }
+      .cmp-row select { width: auto; flex: 1 1 auto; min-width: 0; min-height: 1.9rem; padding: 3px 4px; font-size: .83rem; font-weight: 700; }
+      .loading { text-align: center; color: var(--ink-soft); padding: 20px 10px; }
 
       /* ---------- Toast ---------- */
       .toast {
@@ -308,51 +301,52 @@
       /* ---------- Quiz ---------- */
       .quiz-card {
         background: var(--surface); border: 1px solid var(--line);
-        border-radius: 14px; box-shadow: var(--shadow); padding: 20px 18px;
+        border-radius: 12px; box-shadow: var(--shadow); padding: 12px 14px;
       }
-      .quiz-card h2 { margin: 0 0 8px; font-size: 1.25rem; }
-      .quiz-card p { color: var(--ink-soft); }
-      .quiz-progress { font-size: .85rem; font-weight: 600; color: var(--ink-soft); margin-bottom: 6px; }
-      .progress-track { height: 8px; background: var(--surface-2); border-radius: 99px; overflow: hidden; margin-bottom: 18px; }
+      .quiz-card h2 { margin: 0 0 4px; font-size: 1.12rem; }
+      .quiz-card p { color: var(--ink-soft); margin: 4px 0; }
+      .quiz-progress { font-size: .82rem; font-weight: 700; color: var(--ink-soft); margin-bottom: 5px; }
+      .progress-track { height: 8px; background: var(--surface-2); border-radius: 99px; overflow: hidden; margin-bottom: 12px; }
       .progress-fill { height: 100%; background: var(--green); border-radius: 99px; transition: width .3s ease; }
-      .q-text { font-size: 1.12rem; font-weight: 600; line-height: 1.55; margin: 0 0 6px; }
+      .q-text { font-size: 1.05rem; font-weight: 600; line-height: 1.45; margin: 0 0 4px; }
       .q-verse {
         font-family: "Noto Serif", Georgia, serif; font-style: italic;
-        background: var(--surface-2); border-radius: 10px; padding: 12px 14px;
-        margin: 0 0 14px; line-height: 1.7; font-size: 1rem;
+        background: var(--surface-2); border-radius: 9px; padding: 9px 12px;
+        margin: 0 0 10px; line-height: 1.6; font-size: .95rem;
       }
-      .options { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+      .options { display: flex; flex-direction: column; gap: 6px; margin-top: 9px; }
       .option {
         text-align: left; width: 100%; cursor: pointer;
         border: 1.5px solid var(--line); background: var(--surface); color: var(--ink);
-        border-radius: 12px; padding: 13px 15px; font-size: 1rem; line-height: 1.45;
+        border-radius: 9px; padding: 7px 10px; font-size: .93rem; line-height: 1.35;
       }
       .option:hover:not(:disabled) { border-color: var(--green); }
       .option:disabled { cursor: default; }
       .option.correct { border-color: var(--green); background: var(--green-soft); font-weight: 600; }
       .option.wrong { border-color: var(--red); background: var(--red-soft); }
       .explain {
-        margin-top: 14px; border-radius: 10px; padding: 12px 14px;
-        background: var(--gold-soft); font-size: .93rem; line-height: 1.6;
+        margin-top: 9px; border-radius: 9px; padding: 9px 12px;
+        background: var(--gold-soft); font-size: .9rem; line-height: 1.55;
       }
       .explain .verdict { font-weight: 700; display: block; margin-bottom: 2px; }
-      .quiz-actions { margin-top: 16px; display: flex; gap: 10px; }
-      .quiz-actions .btn { flex: 1; padding: 12px; }
-      .score-big { font-size: 2.2rem; font-weight: 800; color: var(--green-deep); margin: 6px 0; }
-      .big-start { width: 100%; padding: 14px; font-size: 1.05rem; margin-top: 10px; }
+      .quiz-actions { margin-top: 10px; display: flex; gap: 6px; }
+      .quiz-actions .btn { flex: 1; padding: 7px 12px; min-height: 2.1rem; }
+      .score-big { font-size: 2.1rem; font-weight: 800; color: var(--green-deep); margin: 4px 0; }
+      .big-start { width: 100%; padding: 7px 14px; font-size: .98rem; margin-top: 8px; min-height: 2.1rem; }
 
       /* ---------- About ---------- */
       .about-card {
         background: var(--surface); border: 1px solid var(--line);
-        border-radius: 14px; box-shadow: var(--shadow); padding: 20px 18px; margin-bottom: 12px;
+        border-radius: 12px; box-shadow: var(--shadow); padding: 12px 14px; margin-bottom: 8px;
       }
-      .about-card h2 { margin: 0 0 10px; font-size: 1.15rem; color: var(--green-deep); }
-      .about-card p, .about-card li { color: var(--ink); line-height: 1.65; }
-      .about-card ul { margin: 6px 0; padding-left: 20px; }
-      .about-card li { margin-bottom: 5px; }
-      .about-card .small { font-size: .88rem; color: var(--ink-soft); }
-      table.editions { width: 100%; border-collapse: collapse; font-size: .92rem; }
-      table.editions th, table.editions td { text-align: left; padding: 7px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
+      .about-card h2 { margin: 0 0 6px; font-size: 1.05rem; color: var(--green-deep); }
+      .about-card p, .about-card li { color: var(--ink); line-height: 1.55; }
+      .about-card ul { margin: 4px 0; padding-left: 18px; }
+      .about-card li { margin-bottom: 4px; }
+      .about-card .small { font-size: .84rem; color: var(--ink-soft); }
+      .about-card a, .about-card p, .about-card li { overflow-wrap: anywhere; }
+      table.editions { width: 100%; max-width: 100%; table-layout: fixed; border-collapse: collapse; font-size: .88rem; }
+      table.editions th, table.editions td { text-align: left; padding: 5px 5px; border-bottom: 1px solid var(--line); vertical-align: top; overflow-wrap: anywhere; }
       table.editions th { color: var(--ink-soft); font-size: .78rem; letter-spacing: .03em; }
       a { color: var(--green); }
       .hidden { display: none !important; }
@@ -383,16 +377,16 @@
       <!-- ============ TRA CỨU ============ -->
       <section id="view-read">
         <div id="browser-box">
-          <div class="fav-box" id="fav-box">
-            <div class="surah-grid" id="fav-grid"></div>
-            <p class="fav-empty" id="fav-empty"></p>
-          </div>
           <div class="controls">
             <input type="search" id="surah-search" placeholder="" aria-label="Tìm surah" />
-            <p class="hint" id="list-hint"></p>
           </div>
-          <div class="surah-grid" id="surah-grid"></div>
-          <p class="empty hidden" id="list-empty"></p>
+          <div class="list-scroll" id="list-scroll">
+            <div class="fav-box" id="fav-box">
+              <div class="surah-grid" id="fav-grid"></div>
+            </div>
+            <div class="surah-grid" id="surah-grid"></div>
+            <p class="empty hidden" id="list-empty"></p>
+          </div>
         </div>
 
         <div id="reader-box" class="hidden">
@@ -543,11 +537,9 @@
           vi: {
             tabRead: 'Tra cứu', tabQuiz: 'Trắc nghiệm', tabAbout: 'Giới thiệu',
             pickerTitle: 'Chọn ngôn ngữ', close: 'Đóng',
-            searchPh: 'Tìm surah theo số, tên hoặc từ khóa… (vd: 36, Kahf, Maryam)',
+            searchPh: 'Tìm surah…',
             searchLabel: 'Tìm surah',
-            listHint: 'Toàn văn 114 surah · 6.236 câu · 10 ngôn ngữ trọng tâm. Mở một surah chỉ hiện 1 ngôn ngữ; muốn đọc song song thì bật thêm ở mục “Ngôn ngữ đối chiếu” trong trang đọc.',
             listEmpty: 'Không tìm thấy surah nào khớp.',
-            favEmpty: 'Chưa có surah yêu thích — mở một surah và bấm ♡ để thêm vào đây.',
             back: '← Danh sách surah', prev: '← Surah trước', next: 'Surah sau →',
             listen: '▶ Nghe', stop: '■ Dừng', speed: 'Tốc độ', time: 'Giờ tắt', timeOff: 'Tắt',
             cmp: 'Ngôn ngữ đối chiếu', cmpOff: '— Tắt (chỉ 1 ngôn ngữ) —',
@@ -558,14 +550,14 @@
             basmalahNote: 'Surah này là surah duy nhất <b>không bắt đầu bằng Basmalah</b> (“Nhân danh Allah, Đấng Rất Mực Độ Lượng, Đấng Rất Mực Khoan Dung”).',
             loading: 'Đang tải văn bản…',
             loadError: 'Không tải được văn bản ngôn ngữ này. Kiểm tra kết nối mạng rồi thử lại.',
-            listenIdle: 'Đọc bằng giọng của thiết bị, theo ngôn ngữ đang hiển thị.',
+            listenIdle: '',
             listenNoSpeech: 'Thiết bị hoặc trình duyệt này không hỗ trợ đọc thành tiếng.',
             listening: 'Đang đọc', verseOf: 'Câu',
             nativeVoice: 'Giọng hệ thống của máy', voiceName: 'Giọng', noVoice: 'Chưa có giọng trên máy cho ngôn ngữ này',
             timerSet: 'Đã hẹn tắt sau ', timerUnit: ' phút',
             timerDone: 'Đã hết giờ hẹn — đã dừng đọc.',
             quizTitle: 'Trắc nghiệm Kinh Koran',
-            quizDesc: 'Mỗi lượt gồm <b>10 câu hỏi</b> chọn ngẫu nhiên: kiến thức chung về Kinh Koran, số câu và nơi mặc khải của từng surah, ý nghĩa tên surah, và nhận biết câu kinh thuộc surah nào. Trả lời xong mỗi câu sẽ thấy ngay đáp án đúng và phần giải thích.',
+            quizDesc: 'Mỗi lượt <b>10 câu hỏi</b> ngẫu nhiên. Trả lời xong có ngay đáp án và giải thích.',
             quizStart: 'Bắt đầu làm bài', quizAgain: 'Làm lượt mới',
             quizResult: 'Kết quả', quizNext: 'Câu tiếp theo →', quizSeeResult: 'Xem kết quả →',
             quizQ: 'Câu', quizRight: 'Đúng',
@@ -579,11 +571,9 @@
           en: {
             tabRead: 'Read', tabQuiz: 'Quiz', tabAbout: 'About',
             pickerTitle: 'Choose language', close: 'Close',
-            searchPh: 'Search by surah number, name or keyword… (e.g. 36, Kahf, Maryam)',
+            searchPh: 'Search surahs…',
             searchLabel: 'Search surahs',
-            listHint: 'Full text: 114 surahs · 6,236 verses · 10 core languages. A surah opens in one language; turn on a second one under “Comparison language” inside the reader to read side by side.',
             listEmpty: 'No matching surah found.',
-            favEmpty: 'No favourite surahs yet — open a surah and tap ♡ to add it here.',
             back: '← Surah list', prev: '← Previous', next: 'Next →',
             listen: '▶ Listen', stop: '■ Stop', speed: 'Speed', time: 'Timer', timeOff: 'Off',
             cmp: 'Comparison language', cmpOff: '— Off (single language) —',
@@ -594,14 +584,14 @@
             basmalahNote: 'This is the only surah that <b>does not begin with the Basmalah</b> (“In the name of Allah, the Most Gracious, the Most Merciful”).',
             loading: 'Loading text…',
             loadError: 'Could not load this language text. Check your connection and try again.',
-            listenIdle: 'Read aloud with the device voice, in the displayed language.',
+            listenIdle: '',
             listenNoSpeech: 'This device or browser does not support text-to-speech.',
             listening: 'Reading', verseOf: 'Verse',
             nativeVoice: 'Device system voice', voiceName: 'Voice', noVoice: 'No voice installed for this language',
             timerSet: 'Sleep timer set: ', timerUnit: ' min',
             timerDone: 'Sleep timer finished — reading stopped.',
             quizTitle: 'Quran Quiz',
-            quizDesc: 'Each round has <b>10 random questions</b>: general knowledge about the Quran, verse counts and place of revelation of each surah, the meaning of surah names, and recognising which surah a verse belongs to. Every answer is graded instantly with an explanation.',
+            quizDesc: 'Each round has <b>10 random questions</b>. Every answer is graded instantly with an explanation.',
             quizStart: 'Start the quiz', quizAgain: 'New round',
             quizResult: 'Result', quizNext: 'Next question →', quizSeeResult: 'See result →',
             quizQ: 'Question', quizRight: 'Correct',
@@ -725,7 +715,14 @@
           $('view-read').classList.toggle('hidden', v !== 'read');
           $('view-quiz').classList.toggle('hidden', v !== 'quiz');
           $('view-about').classList.toggle('hidden', v !== 'about');
-          window.scrollTo(0, 0);
+          resetScrolls();
+        }
+        /* Màn hình cố định: chỉ cuộn trong từng khung, không cuộn cả trang. */
+        function resetScrolls() {
+          ['list-scroll', 'reader-content', 'view-quiz', 'view-about'].forEach(function (id) {
+            var el = $(id);
+            if (el) el.scrollTop = 0;
+          });
         }
         tabs.forEach(function (tab) {
           tab.addEventListener('click', function () { setView(tab.getAttribute('data-view')); });
@@ -745,9 +742,7 @@
           var search = $('surah-search');
           search.placeholder = t.searchPh;
           search.setAttribute('aria-label', t.searchLabel);
-          $('list-hint').textContent = t.listHint;
           $('list-empty').textContent = t.listEmpty;
-          $('fav-empty').textContent = t.favEmpty;
           $('btn-back').textContent = t.back;
           $('btn-prev').textContent = t.prev;
           $('btn-next').textContent = t.next;
@@ -771,8 +766,8 @@
           var en = uiLang() === 'en';
           $('about1-title').textContent = en ? 'Content & text sources' : 'Nội dung & nguồn văn bản';
           $('about1-body').innerHTML = en
-            ? 'This page holds the full text of the Quran: <b>114 surahs, 6,236 verses (ayahs)</b> — the original Arabic plus 9 translations in the core languages. The text is kept exactly as published, unedited, packaged on 25 Nov 2026 from the open sources below.'
-            : 'Trang này chứa toàn văn Kinh Koran: <b>114 surah, 6.236 câu (ayah)</b>, nguyên bản tiếng Ả Rập kèm 9 bản dịch ở các ngôn ngữ trọng tâm. Văn bản được giữ nguyên vẹn, không chỉnh sửa câu chữ, đóng gói ngày 25/11/2026 từ các nguồn mở dưới đây.';
+            ? 'Full text of the Quran: <b>114 surahs, 6,236 verses</b> — original Arabic plus 9 translations, kept exactly as published.'
+            : 'Toàn văn Kinh Koran: <b>114 surah, 6.236 câu</b> — nguyên bản Ả Rập kèm 9 bản dịch, giữ nguyên văn bản nguồn.';
           $('th-lang').textContent = en ? 'Language' : 'Ngôn ngữ';
           $('th-ed').textContent = en ? 'Translation / translator' : 'Bản dịch / dịch giả';
           $('th-src').textContent = en ? 'Source' : 'Nguồn';
@@ -789,16 +784,12 @@
             + '<li><b>Các bản dịch còn lại</b> lấy từ AlQuranCloud (api.alquran.cloud), nền tảng dữ liệu Koran mở.</li>';
           $('about3-title').textContent = en ? 'Reading notes' : 'Lưu ý khi đọc';
           $('about3-list').innerHTML = en
-            ? '<li>Surah names use the Latin transliteration of AlQuranCloud (e.g. “Al-Faatiha”); this may differ slightly from other sources such as QuranEnc (“Al-Fatiha”).</li>'
-            + '<li>In the Arabic original, the Basmalah (“In the name of Allah…”) is merged into verse 1 of most surahs, exactly as in the source text; <b>surah 9 (At-Tawba)</b> alone has no Basmalah. In the translations, the Basmalah is not merged into verse 1.</li>'
-            + '<li>148 verses of the Vietnamese translation carry the translator’s footnotes — shown right under the verse when you read in Vietnamese.</li>'
-            + '<li>The “revealed in Mecca / Medina” label of each surah follows AlQuranCloud data.</li>'
-            + '<li>Three languages are written right-to-left: Arabic (العربية), Urdu (اردو) and Persian (فارسی) — verses in these languages are displayed right-to-left; all other languages are left-to-right.</li>'
-            : '<li>Tên surah viết theo phiên âm Latin của AlQuranCloud (ví dụ “Al-Faatiha”); cách phiên âm này có thể khác nhẹ so với một số nguồn khác như QuranEnc (“Al-Fatiha”).</li>'
-            + '<li>Ở nguyên bản Ả Rập, câu Basmalah (“Nhân danh Allah…”) được gộp trong câu 1 của hầu hết các surah theo đúng văn bản nguồn; riêng <b>surah 9 (At-Tawba)</b> không có Basmalah. Ở các bản dịch, Basmalah không gộp vào câu 1.</li>'
-            + '<li>148 câu trong bản dịch tiếng Việt có chú thích của dịch giả — chú thích hiện ngay dưới câu tương ứng khi bạn đọc bản tiếng Việt.</li>'
-            + '<li>Phân loại “mặc khải ở Mecca / Medina” của từng surah theo dữ liệu AlQuranCloud.</li>'
-            + '<li>Ba ngôn ngữ viết từ phải sang trái: Ả Rập (العربية), Urdu (اردو) và Ba Tư (فارسی) — câu kinh ở các ngôn ngữ này hiện đúng chiều phải-sang-trái; các ngôn ngữ còn lại hiện trái-sang-phải.</li>';
+            ? '<li>In the Arabic original, the Basmalah is merged into verse 1 of most surahs; <b>surah 9 (At-Tawba)</b> alone has none. Translations do not merge it.</li>'
+            + '<li>148 verses of the Vietnamese translation carry translator’s footnotes, shown under the verse.</li>'
+            + '<li>Arabic, Urdu and Persian are displayed right-to-left.</li>'
+            : '<li>Ở nguyên bản Ả Rập, Basmalah gộp trong câu 1 của hầu hết các surah; riêng <b>surah 9 (At-Tawba)</b> không có. Các bản dịch không gộp.</li>'
+            + '<li>148 câu bản tiếng Việt có chú thích của dịch giả, hiện ngay dưới câu.</li>'
+            + '<li>Tiếng Ả Rập, Urdu và Ba Tư hiện đúng chiều phải-sang-trái.</li>';
         }
 
         /* ---------- Chọn ngôn ngữ (quả cầu) ---------- */
@@ -866,15 +857,15 @@
           renderReader();
         });
 
-        /* ---------- Danh sách surah + yêu thích ---------- */
-        function surahButtonHTML(idx, extraMeta) {
+        /* ---------- Danh sách surah + yêu thích ----------
+           Nút surah đúng như nút sách của Kinh Thánh: một dòng tên duy nhất,
+           không thêm dòng tên Ả Rập hay dòng số câu bên dưới. */
+        function surahButtonHTML(idx) {
           var m = meta(idx);
-          var mainName = state.primary === 'ar' ? m.ar : m.en;
-          var html = '<span class="num-badge"><span>' + m.n + '</span></span>'
-            + '<span class="names"><span class="en">' + m.n + '. ' + esc(mainName) + '</span><br>'
-            + '<span class="meta">' + typeLabel(m) + ' · ' + m.count + ' ' + ui().verses + (extraMeta || '') + '</span></span>';
-          if (state.primary !== 'ar') html += '<span class="ar-name" dir="rtl" lang="ar">' + esc(m.ar) + '</span>';
-          return html;
+          if (state.primary === 'ar') {
+            return '<span class="ar-name" dir="rtl" lang="ar">' + m.n + '. ' + esc(m.ar) + '</span>';
+          }
+          return '<span class="en">' + m.n + '. ' + esc(m.en) + '</span>';
         }
         function bindSurahButtons(container) {
           container.querySelectorAll('.surah-item').forEach(function (el) {
@@ -887,7 +878,7 @@
           var grid = $('fav-grid');
           var favIdx = [];
           SURAHS_META.forEach(function (m, idx) { if (state.favorites[m[0]]) favIdx.push(idx); });
-          $('fav-empty').classList.toggle('hidden', favIdx.length > 0);
+          $('fav-box').classList.toggle('hidden', favIdx.length === 0);
           grid.innerHTML = favIdx.map(function (idx) {
             return '<button class="surah-item" data-idx="' + idx + '">' + surahButtonHTML(idx) + '</button>';
           }).join('');
@@ -901,7 +892,6 @@
           var count = 0;
           SURAHS_META.forEach(function (mm, idx) {
             var m = meta(idx);
-            var extra = '';
             if (q) {
               var hay = (m.n + ' ' + m.en + ' ' + m.ar).toLowerCase();
               if (hay.indexOf(q) === -1) {
@@ -913,11 +903,10 @@
                   if (verses[i].toLowerCase().indexOf(q) !== -1) hits++;
                 }
                 if (!hits) return;
-                extra = ' · ' + hits + ' ' + ui().kwHits;
               }
             }
             count++;
-            html += '<button class="surah-item" data-idx="' + idx + '">' + surahButtonHTML(idx, extra) + '</button>';
+            html += '<button class="surah-item" data-idx="' + idx + '">' + surahButtonHTML(idx) + '</button>';
           });
           $('surah-grid').innerHTML = html;
           $('list-empty').classList.toggle('hidden', count > 0);
@@ -935,7 +924,8 @@
           $('browser-box').classList.add('hidden');
           $('reader-box').classList.remove('hidden');
           renderReader();
-          window.scrollTo(0, 0);
+          var rc = $('reader-content');
+          if (rc) rc.scrollTop = 0;
         }
         function closeSurah() {
           stopListen();
@@ -1043,10 +1033,10 @@
           h.title = fav ? ui().favRemove : ui().favAdd;
         }
         $('btn-prev').addEventListener('click', function () {
-          if (state.currentSurah > 0) { state.currentSurah--; renderReader(); window.scrollTo(0, 0); }
+          if (state.currentSurah > 0) { state.currentSurah--; renderReader(); $('reader-content').scrollTop = 0; }
         });
         $('btn-next').addEventListener('click', function () {
-          if (state.currentSurah < SURAHS_META.length - 1) { state.currentSurah++; renderReader(); window.scrollTo(0, 0); }
+          if (state.currentSurah < SURAHS_META.length - 1) { state.currentSurah++; renderReader(); $('reader-content').scrollTop = 0; }
         });
         $('font-up').addEventListener('click', function () {
           state.verseScale = Math.min(1.5, +(state.verseScale + 0.1).toFixed(2));
