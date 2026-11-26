@@ -1,15 +1,12 @@
-name: Build AAB (signed)
+name: Build AAB (unsigned)
 # Signed AAB for Google Play (closed testing, then production).
 # Triggered manually only (workflow_dispatch) so the normal push pipeline
 # keeps building the debug APK (build-apk.yml).
-# Pattern copied from the proven bible-quiz build-aab.yml:
-# build UNSIGNED bundle with ./gradlew bundleRelease (no signingConfigs),
-# then sign it with r0adkll/sign-android-release@v1 using the release keystore
-# whose base64 is in secret KEYSTORE_BASE64.
+# Builds the UNSIGNED bundle only (./gradlew bundleRelease, no signingConfigs).
+# The release keystore password secrets on GitHub are stale, so the AAB is
+# signed locally with jarsigner using ~/workspace/kinh-koran-apk/keystore/quran-release.keystore.
 # Keystore: quran-release.keystore, alias quran,
 # SHA-1 19:4E:D2:75:02:65:23:03:7C:63:8D:0A:F4:A4:A3:89:85:8C:4E:15, valid to 2056.
-# Secrets needed: KEYSTORE_BASE64, KEY_ALIAS (= quran),
-# KEYSTORE_PASSWORD, KEY_PASSWORD.
 on:
   workflow_dispatch:
 jobs:
@@ -66,18 +63,7 @@ jobs:
         run: |
           cd android
           ./gradlew bundleRelease
-      - name: Sign AAB
-        id: sign_app
-        uses: r0adkll/sign-android-release@v1
-        with:
-          releaseDirectory: android/app/build/outputs/bundle/release
-          signingKeyBase64: ${{ secrets.KEYSTORE_BASE64 }}
-          alias: ${{ secrets.KEY_ALIAS }}
-          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
-      - name: Show signed AAB
-        run: ls -la android/app/build/outputs/bundle/release/
       - uses: actions/upload-artifact@v4
         with:
-          name: quran-aab
-          path: ${{ steps.sign_app.outputs.signedReleaseFile }}
+          name: quran-aab-unsigned
+          path: android/app/build/outputs/bundle/release/app-release.aab
